@@ -11,7 +11,7 @@ struct TitleCaseToKebabCaseConverter {
     static func convertToKebabCase(fromTitleCase input: String) -> String {
         input
             .components(separatedBy: " ")
-            .map(\.localizedLowercase)
+            .map { $0.lowercased() }
             .joined(separator: "-")
     }
 }
