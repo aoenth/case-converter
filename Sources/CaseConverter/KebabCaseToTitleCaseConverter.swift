@@ -1,6 +1,14 @@
+//
+//  KebabCaseToTitleCaseConverter.swift
+//  
+//
+//  Created by Kevin Peng on 2022-01-28.
+//
+
 import Foundation
 
-public extension String {
+struct KebabCaseToTitleCaseConverter {
+    
     private static let autoCapitalizedWords: Set<String> = [
         "iOS",
         "macOS",
@@ -10,7 +18,7 @@ public extension String {
         "iPad",
         "MacBook",
     ]
-
+    
     private static let capitalizationAvoidances: Set<String> = [
         "and",
         "as",
@@ -52,16 +60,25 @@ public extension String {
         "when",
         "yet",
     ]
-
-    static func spaceSeparatedTitleCase(kebabCase: String) -> String {
-        kebabCase
+    
+    static func convertToTitleCase(fromKebabCase input: String) -> String {
+        var input = input
             .replacingOccurrences(of: "-s-", with: "'s ")
             .components(separatedBy: "-")
             .map(captalizeIfNeeded)
             .joined(separator: " ")
-    }
 
-    static func captalizeIfNeeded(_ word: String) -> String {
+        for word in Self.capitalizationAvoidances {
+            if let range = input.lowercased().range(of: " " + word + " ") {
+                let replacement = String(input[range]).lowercased()
+                input.replaceSubrange(range, with: replacement)
+            }
+        }
+
+        return input
+    }
+    
+    private static func captalizeIfNeeded(_ word: String) -> String {
         if let foundWord = words(Self.capitalizationAvoidances, contain: word) {
             return foundWord
         }
@@ -70,12 +87,12 @@ public extension String {
         }
         return word.capitalized
     }
-
-    static func words(_ words: Set<String>, contain word: String) -> String? {
+    
+    private static func words(_ words: Set<String>, contain word: String) -> String? {
         words.first(where: { compare(lhs: $0, rhs: word) })
     }
-
-    static func compare(lhs: String, rhs: String) -> Bool {
+    
+    private static func compare(lhs: String, rhs: String) -> Bool {
         lhs.caseInsensitiveCompare(rhs) == .orderedSame
     }
 }
