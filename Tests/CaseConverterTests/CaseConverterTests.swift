@@ -2,10 +2,10 @@ import XCTest
 @testable import CaseConverter
 
 final class CaseConverterTests: XCTestCase {
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual(CaseConverter().text, "Hello, World!")
+    func test_kebabCaseToTitleCase() throws {
+        let input = "boringssl-metrics-log-metric-block-invoke"
+        let result = String.spaceSeparatedTitleCase(kebabCase: input)
+        let expectation = "Boringssl Metrics Log Metric Block Invoke"
+        XCTAssertEqual(result, expectation)
     }
 }

@@ -53,7 +53,7 @@ public extension String {
         "yet",
     ]
 
-    func spaceSeparatedTitleCase(kebabCase: String) -> String {
+    static func spaceSeparatedTitleCase(kebabCase: String) -> String {
         kebabCase
             .replacingOccurrences(of: "-s-", with: "'s ")
             .components(separatedBy: "-")
@@ -61,7 +61,7 @@ public extension String {
             .joined(separator: " ")
     }
 
-    func captalizeIfNeeded(_ word: String) -> String {
+    static func captalizeIfNeeded(_ word: String) -> String {
         if let foundWord = words(Self.capitalizationAvoidances, contain: word) {
             return foundWord
         }
@@ -71,11 +71,11 @@ public extension String {
         return word.capitalized
     }
 
-    func words(_ words: Set<String>, contain word: String) -> String? {
+    static func words(_ words: Set<String>, contain word: String) -> String? {
         words.first(where: { compare(lhs: $0, rhs: word) })
     }
 
-    func compare(lhs: String, rhs: String) -> Bool {
+    static func compare(lhs: String, rhs: String) -> Bool {
         lhs.caseInsensitiveCompare(rhs) == .orderedSame
     }
 }
