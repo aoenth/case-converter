@@ -13,7 +13,7 @@ public extension String {
 
     var kebabCase: String {
         switch CaseDetector().detect(self) {
-        case .titleCase:
+        case .titleCase, .sentenceCase, .spaceSeparated:
             return TitleCaseToKebabCaseConverter.convertToKebabCase(fromTitleCase: self)
         default:
             fatalError("Conversion unsupported")

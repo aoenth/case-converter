@@ -8,12 +8,13 @@
 import Foundation
 
 enum CaseType {
-    case camelCase
-    case titleCase
     case snakeCase
     case kebabCase
-    case pascalCase
+    case titleCase
+    case sentenceCase
     case spaceSeparated
+    case camelCase
+    case pascalCase
 }
 
 struct CaseDetector {
@@ -32,11 +33,7 @@ struct CaseDetector {
             if separated.count > 1 {
                 switch delimiter {
                 case " ":
-                    if isTitleCase(input: separated) {
-                        return .titleCase
-                    } else {
-                        return .spaceSeparated
-                    }
+                    return .spaceSeparated
                 case "_":
                     return .snakeCase
                 case "-":
@@ -57,6 +54,17 @@ struct CaseDetector {
     private func isTitleCase(input: [String]) -> Bool {
         for word in input {
             if !word[word.startIndex].isUppercase {
+                return false
+            }
+        }
+        return true
+    }
+
+    private func isSentenceCase(input: [String]) -> Bool {
+        for (index, word) in input.enumerated() {
+            if index == 0, word[word.startIndex].isUppercase == false {
+                return false
+            } else if word[word.startIndex].isLowercase == false {
                 return false
             }
         }
