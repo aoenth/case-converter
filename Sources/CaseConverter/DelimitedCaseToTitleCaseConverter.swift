@@ -1,5 +1,5 @@
 //
-//  KebabCaseToTitleCaseConverter.swift
+//  DelimitedCaseToTitleCaseConverter.swift
 //  
 //
 //  Created by Kevin Peng on 2022-01-28.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct KebabCaseToTitleCaseConverter {
+struct DelimitedCaseToTitleCaseConverter {
     
     private static let autoCapitalizedWords: Set<String> = [
         "iOS",
@@ -61,10 +61,10 @@ struct KebabCaseToTitleCaseConverter {
         "yet",
     ]
     
-    static func convertToTitleCase(fromKebabCase input: String) -> String {
+    static func convertToTitleCase(from input: String, delimiter: String) -> String {
         var input = input
-            .replacingOccurrences(of: "-s-", with: "'s ")
-            .components(separatedBy: "-")
+            .replacingOccurrences(of: delimiter + "s" + delimiter, with: "'s ")
+            .components(separatedBy: delimiter)
             .map(captalizeIfNeeded)
             .joined(separator: " ")
 

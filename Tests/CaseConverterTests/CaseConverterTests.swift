@@ -16,6 +16,13 @@ final class CaseConverterTests: XCTestCase {
         XCTAssertEqual(result, expectation)
     }
 
+    func test_snakeCaseToTitleCaseWithNonCapitalizedWords() {
+        let input = "boringssl_on_top_metrics_as_log_when_iPad_metric_as_if_block_invoke"
+        let result = input.titleCase
+        let expectation = "Boringssl on Top Metrics as Log when iPad Metric as if Block Invoke"
+        XCTAssertEqual(result, expectation)
+    }
+
     func test_titleCaseToKebabCase() {
         let input = "Boringssl Metrics Log Metric Block Invoke"
         let result = input.kebabCase

@@ -7,7 +7,9 @@ public extension String {
         case .singleWord:
             return capitalized
         case .kebabCase:
-            return KebabCaseToTitleCaseConverter.convertToTitleCase(fromKebabCase: self)
+            return DelimitedCaseToTitleCaseConverter.convertToTitleCase(from: self, delimiter: "-")
+        case .snakeCase:
+            return DelimitedCaseToTitleCaseConverter.convertToTitleCase(from: self, delimiter: "_")
         default:
             fatalError("Conversion unsupported")
         }
