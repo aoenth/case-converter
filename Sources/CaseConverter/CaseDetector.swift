@@ -15,6 +15,7 @@ enum CaseType {
     case spaceSeparated
     case camelCase
     case pascalCase
+    case singleWord
 }
 
 struct CaseDetector {
@@ -44,11 +45,17 @@ struct CaseDetector {
             }
         }
 
-        if isPascalCase(input: input) {
-            return .pascalCase
-        } else {
-            return .camelCase
+        for character in input.dropFirst() {
+            if character.isUppercase {
+                if input[input.startIndex].isUppercase {
+                    return .pascalCase
+                } else {
+                    return .camelCase
+                }
+            }
         }
+
+        return .singleWord
     }
 
     private func isTitleCase(input: [String]) -> Bool {

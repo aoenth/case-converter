@@ -4,6 +4,8 @@ import Foundation
 public extension String {
     var titleCase: String {
         switch CaseDetector().detect(self) {
+        case .singleWord:
+            return capitalized
         case .kebabCase:
             return KebabCaseToTitleCaseConverter.convertToTitleCase(fromKebabCase: self)
         default:
@@ -13,6 +15,8 @@ public extension String {
 
     var kebabCase: String {
         switch CaseDetector().detect(self) {
+        case .singleWord:
+            return lowercased()
         case .titleCase, .sentenceCase, .spaceSeparated:
             return TitleCaseToKebabCaseConverter.convertToKebabCase(fromTitleCase: self)
         default:
