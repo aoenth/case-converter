@@ -30,6 +30,13 @@ final class CaseDetectorTests: XCTestCase {
         XCTAssertEqual(result, .camelCase)
     }
 
+    func test_singleWord() {
+        let input = "thequickbrownfoxjumpsoverthelazydog"
+        let result = CaseDetector().detect(input)
+
+        XCTAssertEqual(result, .singleWord)
+    }
+
     func test_pascalCase() {
         let input = "TheQuickBrownFoxJumpsOverTheLazyDog"
         let result = CaseDetector().detect(input)

@@ -24,7 +24,7 @@ struct CaseDetector {
             return .camelCase
         }
         guard input.count > 1 else {
-            return isPascalCase(input: input) ? .pascalCase : .camelCase
+            return input.isCapitalized ? .pascalCase : .camelCase
         }
 
         let delimiters = [" ", "_", "-"]
@@ -34,17 +34,13 @@ struct CaseDetector {
             if separated.count > 1 {
                 switch delimiter {
                 case " ":
-                    switch isPascalCase(input: separated[0]) {
-                    case true:
-                        switch separated.filter(\.shouldCapitalizeForTitleCase).isEmpty {
-                        case true:
-                            return .titleCase
-                        case false:
+                    guard separated[0].isCapitalized else { return .sentenceCase }
+                    for word in separated.dropFirst() {
+                        if word.isCapitalized == false && !word.isLowercaseInTitleCase {
                             return .sentenceCase
                         }
-                    case false:
-                        return .spaceSeparated
                     }
+                    return .titleCase
                 case "_":
                     return .snakeCase
                 case "-":
@@ -55,9 +51,9 @@ struct CaseDetector {
             }
         }
 
-        for character in input.dropFirst() {
+        for (index, character) in input.enumerated() {
             if character.isUppercase {
-                if isPascalCase(input: input) {
+                if index == 0 {
                     return .pascalCase
                 } else {
                     return .camelCase
@@ -67,32 +63,10 @@ struct CaseDetector {
 
         return .singleWord
     }
+}
 
-    private func isTitleCase(input: [String]) -> Bool {
-        for word in input {
-            if !word[word.startIndex].isUppercase {
-                return false
-            }
-        }
-        return true
-    }
-
-    private func isSentenceCase(input: [String]) -> Bool {
-        for (index, word) in input.enumerated() {
-            if index == 0, word[word.startIndex].isUppercase == false {
-                return false
-            } else if word[word.startIndex].isLowercase == false {
-                return false
-            }
-        }
-        return true
-    }
-
-    private func isPascalCase(input: String) -> Bool {
-        input[input.startIndex].isUppercase
-    }
-
-    private func separate(input: String, delimiter: String) -> [String] {
-        input.components(separatedBy: " ")
+extension String {
+    var isCapitalized: Bool {
+        self[startIndex].isUppercase
     }
 }

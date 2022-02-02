@@ -4,6 +4,8 @@ import Foundation
 public extension String {
     var titleCase: String {
         switch CaseDetector().detect(self) {
+        case .titleCase:
+            return self
         case .singleWord:
             return capitalized
         case .kebabCase:
@@ -11,18 +13,22 @@ public extension String {
         case .snakeCase:
             return DelimitedCaseToTitleCaseConverter.convertToTitleCase(from: self, delimiter: "_")
         default:
-            fatalError("Conversion unsupported")
+            print("Warning: Conversion unsupported")
+            return self
         }
     }
 
     var kebabCase: String {
         switch CaseDetector().detect(self) {
+        case .kebabCase:
+            return self
         case .singleWord:
             return lowercased()
         case .titleCase, .sentenceCase, .spaceSeparated:
             return TitleCaseToKebabCaseConverter.convertToKebabCase(fromTitleCase: self)
         default:
-            fatalError("Conversion unsupported")
+            print("Warning: Conversion unsupported")
+            return self
         }
     }
 }

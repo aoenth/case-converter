@@ -9,8 +9,8 @@ import Foundation
 
 extension String {
 
-    var shouldCapitalizeForTitleCase: Bool {
-        Self.capitalizationAvoidances.contains(self) == false
+    var isLowercaseInTitleCase: Bool {
+        Self.capitalizationAvoidances.contains(self)
     }
 
     static let capitalizationAvoidances: Set<String> = [
@@ -44,6 +44,7 @@ extension String {
         "past",
         "so",
         "so that",
+        "the",
         "than",
         "that",
         "till",
