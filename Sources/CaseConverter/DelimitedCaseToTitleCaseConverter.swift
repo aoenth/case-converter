@@ -8,59 +8,7 @@
 import Foundation
 
 struct DelimitedCaseToTitleCaseConverter {
-    
-    private static let autoCapitalizedWords: Set<String> = [
-        "iOS",
-        "macOS",
-        "tvOS",
-        "iPadOS",
-        "iPhone",
-        "iPad",
-        "MacBook",
-    ]
-    
-    private static let capitalizationAvoidances: Set<String> = [
-        "and",
-        "as",
-        "as if",
-        "as long as",
-        "at",
-        "but",
-        "by",
-        "even if",
-        "for",
-        "from",
-        "if",
-        "if only",
-        "in",
-        "into",
-        "like",
-        "near",
-        "now that",
-        "nor",
-        "of",
-        "off",
-        "on",
-        "on top of",
-        "once",
-        "onto",
-        "or",
-        "out of",
-        "over",
-        "past",
-        "so",
-        "so that",
-        "than",
-        "that",
-        "till",
-        "to",
-        "up",
-        "upon",
-        "with",
-        "when",
-        "yet",
-    ]
-    
+
     static func convertToTitleCase(from input: String, delimiter: String) -> String {
         var input = input
             .replacingOccurrences(of: delimiter + "s" + delimiter, with: "'s ")
@@ -68,7 +16,7 @@ struct DelimitedCaseToTitleCaseConverter {
             .map(captalizeIfNeeded)
             .joined(separator: " ")
 
-        for word in Self.capitalizationAvoidances {
+        for word in String.capitalizationAvoidances {
             if let range = input.lowercased().range(of: " " + word + " ") {
                 let replacement = String(input[range]).lowercased()
                 input.replaceSubrange(range, with: replacement)
@@ -79,10 +27,10 @@ struct DelimitedCaseToTitleCaseConverter {
     }
     
     private static func captalizeIfNeeded(_ word: String) -> String {
-        if let foundWord = words(Self.capitalizationAvoidances, contain: word) {
+        if let foundWord = words(String.capitalizationAvoidances, contain: word) {
             return foundWord
         }
-        if let foundWord = words(Self.autoCapitalizedWords, contain: word) {
+        if let foundWord = words(String.autoCapitalizedWords, contain: word) {
             return foundWord
         }
         return word.capitalized

@@ -24,7 +24,7 @@ struct CaseDetector {
             return .camelCase
         }
         guard input.count > 1 else {
-            return input[input.startIndex].isUppercase ? .titleCase : .camelCase
+            return isPascalCase(input: input) ? .pascalCase : .camelCase
         }
 
         let delimiters = [" ", "_", "-"]
@@ -34,7 +34,17 @@ struct CaseDetector {
             if separated.count > 1 {
                 switch delimiter {
                 case " ":
-                    return .spaceSeparated
+                    switch isPascalCase(input: separated[0]) {
+                    case true:
+                        switch separated.filter(\.shouldCapitalizeForTitleCase).isEmpty {
+                        case true:
+                            return .titleCase
+                        case false:
+                            return .sentenceCase
+                        }
+                    case false:
+                        return .spaceSeparated
+                    }
                 case "_":
                     return .snakeCase
                 case "-":
@@ -47,7 +57,7 @@ struct CaseDetector {
 
         for character in input.dropFirst() {
             if character.isUppercase {
-                if input[input.startIndex].isUppercase {
+                if isPascalCase(input: input) {
                     return .pascalCase
                 } else {
                     return .camelCase
