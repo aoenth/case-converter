@@ -26,6 +26,8 @@ public extension String {
             return lowercased()
         case .titleCase, .sentenceCase, .spaceSeparated:
             return TitleCaseToKebabCaseConverter.convertToKebabCase(fromTitleCase: self)
+        case .pascalCase:
+            return PascalCaseToKebabCaseConverter.convertToKebabCase(from: self)
         default:
             print("Warning: Conversion unsupported")
             return self
